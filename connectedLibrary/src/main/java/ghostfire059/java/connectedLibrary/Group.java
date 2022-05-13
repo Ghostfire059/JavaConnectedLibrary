@@ -1,14 +1,15 @@
 package ghostfire059.java.connectedLibrary;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class Group implements LibraryEntity
 {
-	private List<LibraryEntity> _list = new ArrayList<LibraryEntity>();
+	private Collection<LibraryEntity> _list = new ArrayList<LibraryEntity>();
 	private String _title;
 	
 	public Group(String title)
@@ -25,7 +26,7 @@ public class Group implements LibraryEntity
 	@Override
 	public Iterator<Long> getISBN()
 	{
-		List<Long> tmpISBNList = new ArrayList<Long>();
+		Collection<Long> tmpISBNList = new ArrayList<Long>();
 		this._list.forEach(entity ->
 		{
 			entity.getISBN().forEachRemaining(tmpISBN ->
@@ -52,7 +53,12 @@ public class Group implements LibraryEntity
 	@Override
 	public Iterator<String> getAuthors()
 	{
-		return this._list.get(0).getAuthors();
+		Iterator<LibraryEntity> it = this._list.iterator();
+		if(it.hasNext())
+		{
+			return it.next().getAuthors();
+		}
+		return Collections.emptyIterator();
 	}
 	
 	@Override
@@ -108,7 +114,7 @@ public class Group implements LibraryEntity
 	}
 	
 	@Override
-	public Object clone() throws CloneNotSupportedException
+	public LibraryEntity clone() throws CloneNotSupportedException
 	{
 		Group newObject = (Group)super.clone();
 		newObject._title = new String(this._title);

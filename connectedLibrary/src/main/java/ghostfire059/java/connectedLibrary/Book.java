@@ -1,21 +1,22 @@
 package ghostfire059.java.connectedLibrary;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Book extends AbstractLibraryEntity
 {
 
-	public Book(long isbn, String title, List<String> authors)
+	public Book(long isbn, String title, Collection<String> authors)
 	{
 		super(isbn, title, authors);
 	}
 	
 	@Override
-	public Object clone() throws CloneNotSupportedException
+	public LibraryEntity clone() throws CloneNotSupportedException
 	{
-		return super.clone();
+		
+		return (Book)super.clone();
 	}
 	
 	@Override

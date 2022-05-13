@@ -8,5 +8,5 @@ public interface LibraryEntity extends Iterable<LibraryEntity>, Cloneable
 	public String getTitle();
 	public boolean setTitle(String title);
 	public Iterator<String> getAuthors();
-	Object clone() throws CloneNotSupportedException;
+	public LibraryEntity clone() throws CloneNotSupportedException;
 }

@@ -1,17 +1,17 @@
 package ghostfire059.java.connectedLibrary;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 public abstract class AbstractLibraryEntity implements LibraryEntity
 {
 	private long _isbn;
 	private String _title;
-	private List<String> _authors = new ArrayList<String>();
+	private Collection<String> _authors = new ArrayList<String>();
 	
-	public AbstractLibraryEntity(long isbn, String title, List<String> authors)
+	public AbstractLibraryEntity(long isbn, String title, Collection<String> authors)
 	{
 		this._isbn = isbn;
 		this._title = title;
@@ -27,7 +27,7 @@ public abstract class AbstractLibraryEntity implements LibraryEntity
 	@Override
 	public Iterator<Long> getISBN()
 	{
-		List<Long> tmpISBNList = new ArrayList<Long>();
+		Collection<Long> tmpISBNList = new ArrayList<Long>();
 		tmpISBNList.add(this._isbn);
 		return tmpISBNList.iterator();
 	}
@@ -52,7 +52,7 @@ public abstract class AbstractLibraryEntity implements LibraryEntity
 	}
 	
 	@Override
-	protected Object clone() throws CloneNotSupportedException
+	public LibraryEntity clone() throws CloneNotSupportedException
 	{
 		AbstractLibraryEntity newObject = (AbstractLibraryEntity)super.clone();
 		newObject._isbn = Long.valueOf(this._isbn);
