@@ -226,4 +226,19 @@ public class Group implements LibraryEntity
 		}
 		return true;
 	}
+
+	@Override
+	public Iterator<String> getCoversFilenames()
+	{
+		Collection<String> tmpCoversPathsList = new ArrayList<String>();
+		this._list.forEach(libraryEntity ->
+		{
+			Iterator<String> childCovers = libraryEntity.getCoversFilenames();
+			while(childCovers.hasNext())
+			{
+				tmpCoversPathsList.add(this._title.concat("/"+childCovers.next().toString()));
+			}
+		});
+		return tmpCoversPathsList.iterator();
+	}
 }
