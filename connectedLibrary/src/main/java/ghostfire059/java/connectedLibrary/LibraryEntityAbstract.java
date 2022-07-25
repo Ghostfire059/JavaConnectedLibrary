@@ -5,17 +5,26 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
-public abstract class AbstractLibraryEntity implements LibraryEntity
+/**
+ * Abstract LibraryEntity used to have a good inheritence tree and don't rewrite code
+ * @author tberasateguy
+ *
+ */
+public abstract class LibraryEntityAbstract implements LibraryEntity
 {
 	private long _isbn;
 	private String _title;
 	private Collection<String> _authors = new ArrayList<String>();
+	private String _editor;
+	private String _type;
 	
-	public AbstractLibraryEntity(long isbn, String title, Collection<String> authors)
+	public LibraryEntityAbstract(long isbn, String title, Collection<String> authors, String editor, String type)
 	{
 		this._isbn = isbn;
 		this._title = title;
 		this._authors = authors;
+		this._editor = editor;
+		this._type = type;
 	}
 
 	@Override
@@ -54,7 +63,7 @@ public abstract class AbstractLibraryEntity implements LibraryEntity
 	@Override
 	public LibraryEntity clone() throws CloneNotSupportedException
 	{
-		AbstractLibraryEntity newObject = (AbstractLibraryEntity)super.clone();
+		LibraryEntityAbstract newObject = (LibraryEntityAbstract)super.clone();
 		newObject._isbn = Long.valueOf(this._isbn);
 		newObject._title = new String(this._title);
 		this._authors.forEach(author ->
@@ -62,5 +71,35 @@ public abstract class AbstractLibraryEntity implements LibraryEntity
 			newObject._authors.add(author);
 		});
 		return newObject;
+	}
+
+	@Override
+	public Iterator<String> getEditors()
+	{
+		Collection<String> tmpEditors = new ArrayList<String>();
+		tmpEditors.add(this._editor);
+		return tmpEditors.iterator();
+	}
+
+	@Override
+	public boolean setEditor(String editor)
+	{
+		this._editor = editor;
+		return true;
+	}
+
+	@Override
+	public Iterator<String> getType()
+	{
+		Collection<String> tmpType = new ArrayList<String>();
+		tmpType.add(this._type);
+		return tmpType.iterator();
+	}
+
+	@Override
+	public boolean setType(String type)
+	{
+		this._type = type;
+		return true;
 	}
 }
