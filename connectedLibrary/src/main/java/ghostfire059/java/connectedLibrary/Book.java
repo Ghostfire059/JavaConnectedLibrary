@@ -1,21 +1,37 @@
 package ghostfire059.java.connectedLibrary;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Book extends AbstractLibraryEntity
-{
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-	public Book(long isbn, String title, Collection<String> authors)
+/**
+ * Representation of a Book
+ * @author tberasateguy
+ *
+ */
+public class Book extends LibraryEntityAbstract
+{
+	/**
+	 * The way to create a Book is to give him all the informations of himself
+	 * @param isbn
+	 * @param title
+	 * @param authors
+	 * @param editor
+	 * @param type
+	 */
+	public Book(long isbn, String title, Collection<String> authors, String editor, String type)
 	{
-		super(isbn, title, authors);
+		super(isbn, title, authors, editor, type);
 	}
 	
 	@Override
 	public LibraryEntity clone() throws CloneNotSupportedException
 	{
-		
 		return (Book)super.clone();
 	}
 	
@@ -78,5 +94,35 @@ public class Book extends AbstractLibraryEntity
 		isbnMap.clear();
 		
 		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean export(String filename) throws IOException
+	{
+		String newFilename = "";
+		if(!filename.startsWith("data/"))
+		{
+			newFilename+="data/";
+		}
+		newFilename+=filename;
+		
+		JSONArray authors = new JSONArray();
+		this.getAuthors().forEachRemaining(author -> authors.add(author));
+		
+		JSONObject book = new JSONObject();
+		long isbn = this.getISBN().next();
+		book.put("isbn", isbn);
+		book.put("title", this.getTitle());
+		book.put("authors", authors);
+		book.put("editor", this.getEditors().next());
+		book.put("type", this.getType().next());
+		
+		FileWriter file = new FileWriter(newFilename + isbn + ".json");
+		file.write(book.toJSONString());
+		file.flush();
+		file.close();
+		
+		return false;
 	}
 }
