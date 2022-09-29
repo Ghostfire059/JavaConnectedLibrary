@@ -1,5 +1,6 @@
 package ghostfire059.java.connectedLibrary;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
@@ -26,6 +28,8 @@ public class SearchHTML implements Search
 	private Collection<String> _actualAuthors = new ArrayList<String>();
 	private String _actualEditor;
 	private String _actualType;
+	private Collection<Cover> _actualCovers = new ArrayList<Cover>();
+	private HtmlImage _actualCover; 
 	
 	private Long _actualISBN = 0L;
 	
@@ -94,6 +98,11 @@ public class SearchHTML implements Search
 			HtmlElement type = page.getFirstByXPath("//div[@class='col pr-1']");
 			this._actualType = type.getTextContent();
 			
+			this._actualCovers.clear();
+			HtmlElement coverUrl = page.getHtmlElementById("book-cover");
+			String src = coverUrl.getAttribute("src");
+			this._actualCovers.add(new Cover(src));
+			this._actualCover = page.<HtmlImage>getFirstByXPath("//img[@src='"+src+"']");
 		}
 		catch(FailingHttpStatusCodeException | IOException e)
 		{
@@ -126,4 +135,29 @@ public class SearchHTML implements Search
 		return this._actualType;
 	}
 
+	public Iterator<Cover> searchCover(long isbn)
+	{
+		if(isbn!=this._actualISBN)
+		{			
+			this._search(isbn);
+		}
+		return this._actualCovers.iterator();
+	}
+	
+	public boolean downloadCover(long isbn, File file)
+	{
+		if(isbn!=this._actualISBN)
+		{
+			this._search(isbn);
+		}
+		try
+		{
+			this._actualCover.saveAs(file);
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		return true;
+	}
 }

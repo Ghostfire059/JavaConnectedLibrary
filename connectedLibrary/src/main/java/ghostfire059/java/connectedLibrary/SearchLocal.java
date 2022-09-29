@@ -23,6 +23,7 @@ public class SearchLocal implements Search
 	private Collection<String> _actualAuthors = new ArrayList<String>();
 	private String _actualEditor;
 	private String _actualType;
+	private Collection<Cover> _actualCovers = new ArrayList<Cover>();
 	
 	private Long _actualISBN = 0L;
 	
@@ -52,12 +53,14 @@ public class SearchLocal implements Search
 			Path actualPath = Paths.get(newPath);
 			if(Files.isDirectory(actualPath))
 			{
+				this._actualCovers.clear();
 				this._search(isbn, newPath);
 			}
 			else
 			{
 				//the file corresponding isbn exists
-				if(Files.exists(actualPath) && actualPath.toString().contains(String.valueOf(isbn)))
+				String pathString = actualPath.toString();
+				if(Files.exists(actualPath) && pathString.contains(String.valueOf(isbn)) && pathString.contains(".json"))
 				{
 					ImportLibraryEntity jsonImport = ImportLibraryEntityJSON.getInstance();
 					try
@@ -76,17 +79,23 @@ public class SearchLocal implements Search
 						
 						this._actualType = "";
 						book.getType().forEachRemaining(type -> this._actualType.concat(type));
+						
+						
 					}
 					catch(IOException e)
 					{
 						e.printStackTrace();
 					}
 				}
+				else if(Files.exists(actualPath) && pathString.contains(String.valueOf(isbn)) && pathString.contains(".jpg"))
+				{
+					this._actualCovers.add(new Cover(actualPath));
+				}
 				else
 				{
 					return false;
-				}
-			}
+				}	
+			}	
 		}
 		return true;
 	}
@@ -129,6 +138,17 @@ public class SearchLocal implements Search
 			this._search(isbn, this._data);
 		}
 		return this._actualType;
+	}
+
+	@Override
+	public Iterator<Cover> searchCover(long isbn)
+	{
+		// TODO Auto-generated method stub
+		if(this._actualISBN!=isbn)
+		{
+			this._search(isbn, this._data);
+		}
+		return this._actualCovers.iterator();
 	}
 
 }

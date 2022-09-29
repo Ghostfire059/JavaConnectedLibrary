@@ -1,13 +1,18 @@
 package ghostfire059.java.connectedLibrary;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import com.gargoylesoftware.htmlunit.DownloadedContent;
+
 
 /**
  * Representation of a Book
@@ -123,6 +128,9 @@ public class Book extends LibraryEntityAbstract
 		file.flush();
 		file.close();
 		
-		return false;
+		SearchHTML downloader = SearchHTML.getInstance();
+		downloader.downloadCover(isbn, new File(newFilename + isbn + downloader.searchCover(isbn).next().getExtension()));
+		
+		return true;
 	}
 }

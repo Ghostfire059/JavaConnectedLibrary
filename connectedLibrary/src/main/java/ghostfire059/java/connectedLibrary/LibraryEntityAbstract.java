@@ -17,8 +17,7 @@ public abstract class LibraryEntityAbstract implements LibraryEntity
 	private Collection<String> _authors = new ArrayList<String>();
 	private String _editor;
 	private String _type;
-	private String _coverFilename = null;
-	private String _imgExt = ".jpg";
+	private Cover _cover = null;
 	
 	public LibraryEntityAbstract(long isbn, String title, Collection<String> authors, String editor, String type)
 	{
@@ -27,7 +26,6 @@ public abstract class LibraryEntityAbstract implements LibraryEntity
 		this._authors = authors;
 		this._editor = editor;
 		this._type = type;
-		this._coverFilename = String.valueOf(this._isbn).concat(this._imgExt);
 	}
 
 	@Override
@@ -107,10 +105,21 @@ public abstract class LibraryEntityAbstract implements LibraryEntity
 	}
 	
 	@Override
-	public Iterator<String> getCoversFilenames()
+	public boolean setCover(Cover cover)
 	{
-		Collection<String> tmpCoversPathsList = new ArrayList<String>();
-		tmpCoversPathsList.add(this._coverFilename);
+		this._cover = cover;
+		return true;
+	}
+	
+	@Override
+	public Iterator<Cover> getCovers()
+	{
+		if(this._cover==null)
+		{
+			return Collections.emptyIterator();
+		}
+		Collection<Cover> tmpCoversPathsList = new ArrayList<Cover>();
+		tmpCoversPathsList.add(this._cover);
 		return tmpCoversPathsList.iterator();
 	}
 }

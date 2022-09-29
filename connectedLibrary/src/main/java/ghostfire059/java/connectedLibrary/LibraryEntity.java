@@ -1,7 +1,6 @@
 package ghostfire059.java.connectedLibrary;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Iterator;
 
 /**
@@ -78,8 +77,15 @@ public interface LibraryEntity extends Iterable<LibraryEntity>, Cloneable
 	public boolean export(String filename) throws IOException;
 	
 	/**
-	 * Get the filename of the cover(s) of the current LibraryEntity
+	 * Get an Iterator through the Cover of the current LibraryEntity
 	 * @return
 	 */
-	public Iterator<String> getCoversFilenames();
+	public Iterator<Cover> getCovers();
+	
+	/**
+	 * Set the Cover of the actual LibraryEntity
+	 * @param cover
+	 * @return
+	 */
+	public boolean setCover(Cover cover);
 }

@@ -39,6 +39,7 @@ public class App extends Application {
         Search html = SearchHTML.getInstance();
         System.out.println(html.searchTitle(isbn));
         
+        
         System.out.println("\nTEST SearchInstance");
         Search instance = SearchInstance.getInstance(book);
         System.out.println(instance.searchTitle(isbn));
@@ -47,6 +48,7 @@ public class App extends Application {
         Search local = SearchLocal.getInstance();
         System.out.println(local.searchTitle(isbn));
         
+        stage.close();
     }
 
     public static void main(String[] args) {

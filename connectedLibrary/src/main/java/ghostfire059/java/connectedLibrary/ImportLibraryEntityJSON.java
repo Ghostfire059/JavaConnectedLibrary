@@ -88,7 +88,6 @@ public class ImportLibraryEntityJSON implements ImportLibraryEntity
 		{
 			filename = filename.concat(".json");
 		}
-		System.out.println(filename);
 		Long isbn = null;
 		String title = "";
 		String editor = "";
@@ -110,7 +109,13 @@ public class ImportLibraryEntityJSON implements ImportLibraryEntity
 		{
 			e.printStackTrace();
 		}
-		return new Book(isbn, title, realAuthors, editor, type);
+		Book book = new Book(isbn, title, realAuthors, editor, type);
+		Path cover = Paths.get(filename.replace(".json", ".jpg"));
+		if(Files.exists(cover))
+		{
+			book.setCover(new Cover(cover));
+		}
+		return book;
 	}
 
 }

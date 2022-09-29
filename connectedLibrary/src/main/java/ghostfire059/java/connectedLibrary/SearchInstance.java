@@ -18,6 +18,7 @@ public class SearchInstance implements Search
 	private Collection<String> _actualAuthors = new ArrayList<String>();
 	private String _actualEditor;
 	private String _actualType;
+	private Collection<Cover> _actualCovers = new ArrayList<Cover>();
 	
 	private Long _actualISBN = 0L;
 	
@@ -74,6 +75,9 @@ public class SearchInstance implements Search
 				this._actualType = "";
 				_entity.getType().forEachRemaining(type -> this._actualEditor.concat(type.concat(",")));
 				
+				this._actualCovers.clear();
+				_entity.getCovers().forEachRemaining(cover -> this._actualCovers.add(cover));
+				
 				_entity = oldEntity;
 				return true;
 			}
@@ -119,6 +123,16 @@ public class SearchInstance implements Search
 			this._search(isbn);			
 		}
 		return this._actualType;
+	}
+
+	@Override
+	public Iterator<Cover> searchCover(long isbn)
+	{
+		if(this._actualISBN!=isbn)
+		{
+			this._search(isbn);
+		}
+		return this._actualCovers.iterator();
 	}
 
 }

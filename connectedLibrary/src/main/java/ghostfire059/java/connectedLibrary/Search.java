@@ -36,4 +36,11 @@ public interface Search
 	 * @return
 	 */
 	public String searchType(long isbn);
+	
+	/**
+	 * 
+	 * @param isbn
+	 * @return
+	 */
+	public Iterator<Cover> searchCover(long isbn);
 }

@@ -228,17 +228,24 @@ public class Group implements LibraryEntity
 	}
 
 	@Override
-	public Iterator<String> getCoversFilenames()
+	public boolean setCover(Cover cover)
 	{
-		Collection<String> tmpCoversPathsList = new ArrayList<String>();
+		this._list.forEach(libraryEntity -> libraryEntity.setCover(cover));
+		return true;
+	}
+	
+	@Override
+	public Iterator<Cover> getCovers()
+	{
+		Collection<Cover> tmpCoversList = new ArrayList<Cover>();
 		this._list.forEach(libraryEntity ->
 		{
-			Iterator<String> childCovers = libraryEntity.getCoversFilenames();
+			Iterator<Cover> childCovers = libraryEntity.getCovers();
 			while(childCovers.hasNext())
 			{
-				tmpCoversPathsList.add(this._title.concat("/"+childCovers.next().toString()));
+				tmpCoversList.add(childCovers.next());
 			}
 		});
-		return tmpCoversPathsList.iterator();
+		return tmpCoversList.iterator();
 	}
 }
