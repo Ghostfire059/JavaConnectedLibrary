@@ -143,7 +143,6 @@ public class SearchLocal implements Search
 	@Override
 	public Iterator<Cover> searchCover(long isbn)
 	{
-		// TODO Auto-generated method stub
 		if(this._actualISBN!=isbn)
 		{
 			this._search(isbn, this._data);

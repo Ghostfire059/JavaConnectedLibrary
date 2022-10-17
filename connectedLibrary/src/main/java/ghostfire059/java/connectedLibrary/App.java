@@ -1,9 +1,6 @@
 package ghostfire059.java.connectedLibrary;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

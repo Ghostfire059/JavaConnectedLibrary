@@ -3,16 +3,12 @@ package ghostfire059.java.connectedLibrary;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import com.gargoylesoftware.htmlunit.DownloadedContent;
-
 
 /**
  * Representation of a Book
